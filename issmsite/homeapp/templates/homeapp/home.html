@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ISSM - Home</title>
+</head>
+<body>
+<h2>Hola </h2>
+<ol>
+   <li> <a href="alumno/">Alumnos</a> </li>
+   <li> <a href="#">Docentes</a> </li>
+   <li> <a href="secretaria/">Secretaria</a> </li>
+   {% if user.is_authenticated %}
+     <li>User: {{ user.get_username }}</li>
+     <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+   {% else %}
+     <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+   {% endif %}
+  </ul>
+</ol>
+</body>
+</html>
