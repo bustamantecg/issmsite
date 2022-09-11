@@ -18,7 +18,7 @@
                 <th scope="col">Cierra</th>
                 <th scope="col">Llamados</th>
                 <th scope="col">Carrera</th>
-                <th scope="col">Inscripciones</th>
+                <th scope="col">Detalle</th>
             </tr>
             </thead>
             <tbody>
@@ -30,7 +30,7 @@
                 <td>{{mesa.cierra}}</td>
                 <td>{{mesa.llamados}}</td>
                 <td>{{mesa.carreras}}</td>
-                <td><a href="../mesa_detalle/{{mesa.id}}">Inscribirme</a> </td>
+                <td><a href="../mesas_detalles/{{mesa.id}}" class="btn btn-info">Detalle</a> </td>
                 </tr>
                 {% endfor %}
             </tbody>

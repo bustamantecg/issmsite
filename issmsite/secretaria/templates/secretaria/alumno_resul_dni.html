@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Consulta DNI Alumno</title>
+</head>
+<body>
+
+    <h4>Resultado Consulta de Alumno/a D.N.I. {{query_dni}}</h4>
+    <h6>Datos Filiatorios de la Persona:</h6>
+    <ol>
+        <li>ID: {{persona.id}}</li>
+        <li>Apellido: {{persona.apellido}}</li>
+        <li>Nombre: {{persona.nombre}}</li>
+        <li>Genero: {{persona.genero}}</li>
+        <li>Fecha Nac.: {{persona.fechanac}}</li>
+        <li>Estado Civil: {{persona.estado_civil}}</li>
+        <li>Correo Electronico: {{persona.email}}</li>
+    </ol>
+    <h6>Datos Alumno/a</h6>
+    {% if alumno %}
+    {% for alu in alumno %}
+        <p>Carrera: ({{alu.carrera_id}}) {{alu.carrera}}</p>
+        <p>Ingreso: {{alu.ingreso}}</p>
+        <p>Legajo: {{alu.legajo|safe}}</p>
+        <p>Legal: {{alu.legal}}</p>
+        <p>****************************</p>
+    {% endfor %}
+    {% else %}
+        <p>No es un alumno</p>
+    {% endif %}
+    <div>
+        <h5>Carreras</h5>
+        {{carreras|length}}
+    </div>
+<a href="../">Secretaria</a>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>
+</body>
+</html>

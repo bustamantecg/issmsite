@@ -3,5 +3,5 @@ from django.shortcuts import render
 # Create your views here.
 
 
-def docentes(request):
+def docente(request):
     return render(request, 'docente/docente.html')

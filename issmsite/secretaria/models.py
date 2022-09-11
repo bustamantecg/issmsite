@@ -171,7 +171,7 @@ class Docente(models.Model):
     foto = models.ImageField(upload_to='docente', verbose_name='Foto 4x4', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.id} {self.persona}'
+        return f'{self.persona}'
 
     class Meta:
         verbose_name = 'Docente'
@@ -232,7 +232,7 @@ class Concepto(models.Model):
 
 class Alumno(models.Model):
     carrera = models.ForeignKey(Carrera, on_delete=models.SET_NULL, null=True, blank=True)
-    alumno = models.ForeignKey(Persona, on_delete=models.SET_NULL, null=True, blank=True)
+    persona = models.ForeignKey(Persona, on_delete=models.SET_NULL, null=True, blank=True)
     ingreso = models.DateField()
     foto = models.ImageField(upload_to='alumno', verbose_name='Foto 4x4', null=True, blank=True)
     legajo = RichTextField(help_text='Puede describir Altas, Bajas, Documentación, ect.')
@@ -241,7 +241,7 @@ class Alumno(models.Model):
     motivo_baja = models.ForeignKey(MotivoBaja, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return f' Matricula: {self.id} {self.alumno}'
+        return f' Matricula: {self.id} {self.persona} {self.carrera}'
 
     class Meta:
         verbose_name = 'Alumno'

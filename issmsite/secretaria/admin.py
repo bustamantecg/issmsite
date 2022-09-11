@@ -40,7 +40,7 @@ class MesaDetalleAdmin(admin.ModelAdmin):
 
 
 class AlumnoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'alumno', 'foto', 'ingreso')
+    list_display = ('id', 'persona', 'foto', 'ingreso', 'carrera')
     list_filter = ('ingreso', 'baja')
 
 
@@ -71,6 +71,7 @@ class EmpleadoAdmin(admin.ModelAdmin):
 
 class CargoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'id')
+    search_fields = ('id', 'nombre')
 
 
 class PersonaAdmin(admin.ModelAdmin):

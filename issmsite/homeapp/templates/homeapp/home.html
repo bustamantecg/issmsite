@@ -10,6 +10,7 @@
    <li> <a href="alumno/">Alumnos</a> </li>
    <li> <a href="#">Docentes</a> </li>
    <li> <a href="secretaria/">Secretaria</a> </li>
+   <li> <a href="contacto/">Contacto</a> </li>
    {% if user.is_authenticated %}
      <li>User: {{ user.get_username }}</li>
      <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>

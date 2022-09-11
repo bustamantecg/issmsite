@@ -1,0 +1,97 @@
+<!doctype html>
+  <head>
+    <link rel="icon" href="static/img/favicon.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Listado Docentes</title>
+  </head>
+  <body>
+
+<p></p>
+<form class="row g-3" method="POST">
+  <div class="col-auto">
+    <label>Ingrese Dato:<input type="text" placeholder="Buscar..." name="buscar" value="{{request.POST.buscar}}"> </label>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+  </div>
+  {% csrf_token %}
+</form>
+
+
+<div class="card shadow mb-4">
+     <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Tabla de Docentes [{{cantidad}}]    Encontrados [{{encontrados}}]</h6>
+            </div>
+            <div class="card-body">
+                <a href="" class="btn btn-primary">Listar todo</a>
+                &nbsp&nbsp
+                <a href="" class="btn btn-warning">Agregar</a>
+              <br><br>
+            {% if personas %}
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover"  width="80%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>D.N.I.</th>
+                      <th>Apellido</th>
+                      <th>Nombre</th>
+                      <th>Genero</th>
+                      <th>Legajo</th>
+                      <th>H.Catedras</th>
+                      <th>Titulo</th>
+                      <th>Domicilio</th>
+                      <th>E-mail</th>
+                      <th>Foto</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for persona in personas %}
+                      <tr>
+                        <td>{{persona.persona.id}}</td>
+                        <td>{{persona.persona.dni}}</td>
+                        <td>{{persona.persona.apellido}}</td>
+                        <td>{{persona.persona.nombre}}</td>
+                        <td>{{persona.persona.genero}}</td>
+                        <td>{{persona.legajo|safe}}</td>
+                        <td>{{persona.horas_catedras}}</td>
+                        <td>{{persona.titulo}}</td>
+                        <td>{{persona.persona.domicilio}}</td>
+                        <td>{{persona.persona.email}}</td>
+                        <td>
+                        {% if persona.foto %}
+                            <div class="row-picture">
+                                <img class="circle" src="{{persona.foto.url}}" alt="icon" width="80" height="80">
+                                <br><br>
+                            </div>
+                        {% else %}
+                            <div class="row-picture">
+                                Sin foto
+                                <img class="circle" src="/media/docente/avatar.png" alt="icon" width="50" height="50">
+                            </div>
+                        {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{persona.persona.id}}" class="btn btn-info">...</a> &nbsp;
+                            <a href="{{persona.persona.id}}" class="btn btn-danger">x</a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+             {% else %}
+              <h4>NO HAY DOCENTES REGISTRADOS</h4>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>

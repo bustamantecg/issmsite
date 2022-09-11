@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacto</title>
+</head>
+<body>
+    {% if 'valido' in request.GET %}
+        <p>Información enviada correctamente</p>
+        <p>Gracias por contactarte con nosotros</p>
+    {% endif %}
+
+    <div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table>
+                {{form_contacto.as_table}}
+            </table>
+            <input type="submit" value="Enviar" style="width:150px;">
+        </form>
+    </div>
+</body>
+</html>
