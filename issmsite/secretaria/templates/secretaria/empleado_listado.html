@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Listado Alumnos{% endblock %}
+{% block title %}Listado Empleados{% endblock %}
 
 {% block content %}
 
@@ -23,13 +23,13 @@
 
   <div class="card shadow mb-4">
      <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Listado de Alumnos [{{cantidad}}]</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Listado de Empleados [{{cantidad}}]</h6>
             </div>
             <div class="card-body">
-                <a href="{% url 'alumno_listado'%}" class="btn btn-primary">Listar Todos</a>
-                &nbsp&nbsp <a href="{% url 'alumno_inscribir_carrera'%}" class="btn btn-success">Inscribir</a>
+                <a href="{% url 'empleado_listado'%}" class="btn btn-primary">Listar todo</a>
+                &nbsp&nbsp <a href="#" class="btn btn-success">Registrar Nuevo</a>
               <br><br>
-            {% if personas %}
+            {% if empleados %}
               <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover"  width="80%" cellspacing="0">
                   <thead>
@@ -38,34 +38,34 @@
                       <th>D.N.I.</th>
                       <th>Apellido y Nombre</th>
                       <th>Genero</th>
-                      <th>Carrera</th>
-                      <th>Domicilio</th>
-                      <th>E-mail</th>
-                      <th>Ingreso</th>
+                      <th>Cargo</th>
+                      <th>Horario</th>
+                      <th>carga_horaria</th>
+                      <th>Legajo</th>
                       <th>Foto</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for persona in personas %}
+                    {% for empleado in empleados %}
                       <tr>
-                        <td>{{persona.id}}</td>
-                        <td>{% if persona.persona.vive %}
-                                {{persona.persona.dni}}
+                        <td>{{empleado.id}}</td>
+                        <td>{% if empleado.persona.vive %}
+                                {{empleado.persona.dni}}
                             {% else%}
-                                <p style="color: red"><b>{{persona.persona.dni}}</b></p>
+                                <p style="color: red"><b>{{empleado.persona.dni}}</b></p>
                             {% endif %}
                         </td>
-                        <td>{{persona.persona.apellido}}, {{persona.persona.nombre}}</td>
-                        <td>{{persona.persona.genero}}</td>
-                        <td>{{persona.carrera.abreviatura}}</td>
-                        <td>{{persona.persona.domicilio}}</td>
-                        <td>{{persona.persona.email}}</td>
-                        <td>{{persona.ingreso}}</td>
+                        <td>{{empleado.persona.apellido}}, {{empleado.persona.nombre}}</td>
+                        <td>{{empleado.persona.genero}}</td>
+                        <td>{{empleado.display_cargo}}</td>
+                        <td>{{empleado.horario}}</td>
+                        <td>{{empleado.carga_horaria}}</td>
+                        <td>{{empleado.legajo|safe}}</td>
                         <td>
-                        {% if persona.foto %}
+                        {% if empleado.foto %}
                             <div class="row-picture">
-                                <img class="circle" src="{{persona.foto.url}}" alt="sin foto" width="70" height="70">
+                                <img class="circle" src="{{empleado.foto.url}}" alt="sin foto" width="70" height="70">
                                 <br><br>
                             </div>
                         {% else %}
@@ -75,8 +75,8 @@
                         {% endif %}
                         </td>
                         <td>
-                            <a href="{{persona.persona.id}}" class="btn btn-info">...</a>
-                            <a href="/{{persona.persona.id}}" class="btn btn-danger">x</a>
+                            <a href="{{empleado.persona.id}}" class="btn btn-info">...</a>
+                            <a href="/{{empleado.persona.id}}" class="btn btn-danger">x</a>
                         </td>
                       </tr>
                     {% endfor %}
@@ -84,7 +84,7 @@
                 </table>
               </div>
              {% else %}
-              <h4>NO HAY ALUMNOS REGISTRADOS</h4>
+              <h4>NO HAY EMPLEADOS REGISTRADOS</h4>
             {% endif %}
             </div>
           </div>

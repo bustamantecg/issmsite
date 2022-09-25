@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+    {% block title %}Secretaria - Admin{% endblock %}
+    {% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Inscripción de Alumno a Carrera
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Datos del Alumno</h5>
+        <form method="POST" >
+            <table>
+                {{formaAlumnoInscripCarrera}}
+            </table>
+            {% csrf_token %}
+            <a href="{% url 'alumno_inscribir_carrera' %}" class="btn btn-primary">Inscribir</a>
+            <input name="" id=""class="btn btn-primary" type="submit" value="Inscribir">
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
+
+ {% endblock %}

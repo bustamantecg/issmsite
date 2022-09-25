@@ -16,7 +16,7 @@ class Empresa(models.Model):
     twitter = models.CharField(max_length=254, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.id} {self.nombre}'
+        return f'{self.nombre}'
 
 
 class MotivoBaja(models.Model):
@@ -33,7 +33,7 @@ class EstadoCivil(models.Model):
     nombre = models.CharField(max_length=20)
 
     def __str__(self):
-        return f'{self.id} {self.nombre}'
+        return f'{self.nombre}'
 
     class Meta:
         verbose_name = 'Estado Civil'
@@ -67,8 +67,6 @@ class Persona(models.Model):
     email = models.EmailField(max_length=254)
     domicilio = models.CharField(max_length=150)
     vive = models.BooleanField(default=True)
-    baja = models.DateField(null=True, blank=True)
-    motivo_baja = models.ForeignKey(MotivoBaja, on_delete=models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
 
@@ -169,9 +167,14 @@ class Docente(models.Model):
     carreras = models.ManyToManyField(Carrera)
     legajo = RichTextField(help_text='Puede describir Altas, Bajas, Titulos, ect.')
     foto = models.ImageField(upload_to='docente', verbose_name='Foto 4x4', null=True, blank=True)
-
+    baja = models.DateField(null=True, blank=True)
+    motivo_baja = models.ForeignKey(MotivoBaja, on_delete=models.SET_NULL, null=True, blank=True)
     def __str__(self):
         return f'{self.persona}'
+
+    def delete(self, using=None, keep_parents=False):
+        self.foto.storage.delete(self.foto.name)
+        super().delete()
 
     class Meta:
         verbose_name = 'Docente'
@@ -243,6 +246,10 @@ class Alumno(models.Model):
     def __str__(self):
         return f' Matricula: {self.id} {self.persona} {self.carrera}'
 
+    def delete(self, using=None, keep_parents=False):
+        self.foto.storage.delete(self.foto.name)
+        super().delete()
+
     class Meta:
         verbose_name = 'Alumno'
         verbose_name_plural = 'Alumnos'
@@ -254,7 +261,7 @@ class Empleado(models.Model):
     horario = models.CharField(max_length=200)
     carga_horaria = models.CharField(max_length=100)
     legajo = RichTextField(help_text='Puede describir Altas, Bajas, Titulos, ect.')
-    foto = models.ImageField(upload_to='secretaria', verbose_name='Foto 4x4', null=True, blank=True)
+    foto = models.ImageField(upload_to='empleado', verbose_name='Foto 4x4', null=True, blank=True)
 
     def __str__(self):
         return f'{self.persona}'
@@ -263,6 +270,10 @@ class Empleado(models.Model):
         return ', '.join([cargo.nombre for cargo in self.cargo.all()[:3]])
 
     display_cargo.short_description = 'Cargo'
+
+    def delete(self, using=None, keep_parents=False):
+        self.foto.storage.delete(self.foto.name)
+        super().delete()
 
     class Meta:
         verbose_name = 'Empleado'

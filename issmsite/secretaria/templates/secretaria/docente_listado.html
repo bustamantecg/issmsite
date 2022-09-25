@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Listado Docentes{% endblock %}
+{% block content %}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Listado de Docentes [{{cantidad}}]</h6>
+    </div>
+    <div class="card-body">
+        <a href="" class="btn btn-primary">Listar todo</a>
+        &nbsp&nbsp
+        <a href="{% url 'docente_listado' %}" class="btn btn-warning">Agregar</a>
+        <br><br>
+        {% if entity %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover"  width="80%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>D.N.I.</th>
+                    <th>Docente</th>
+                    <th>Genero</th>
+                    <th>Legajo</th>
+                    <th>H.Catedras</th>
+                    <th>Titulo</th>
+                    <th>Domicilio</th>
+                    <th>E-mail</th>
+                    <th>Foto</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for persona in entity %}
+                <tr>
+                    <td>{{persona.persona.id}}</td>
+                    <td>{{persona.persona.dni}}</td>
+                    <td>{{persona.persona.apellido}}, {{persona.persona.nombre}}</td>
+                    <td>{{persona.persona.genero}}</td>
+                    <td>{{persona.legajo|safe}}</td>
+                    <td>{{persona.horas_catedras}}</td>
+                    <td>{{persona.titulo}}</td>
+                    <td>{{persona.persona.domicilio}}</td>
+                    <td>{{persona.persona.email}}</td>
+                    <td>
+                        {% if persona.foto %}
+                        <div class="row-picture">
+                            <img class="circle" src="{{persona.foto.url}}" alt="icon" width="80" height="80">
+                            <br><br>
+                        </div>
+                        {% else %}
+                        <div class="row-picture">
+                            Sin foto
+                            <img class="circle" src="/media/docente/avatar.png" alt="icon" width="50" height="50">
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{persona.persona.id}}" class="btn btn-info">Detalle</a> &nbsp;
+                        <a href="{{persona.persona.id}}" class="btn btn-danger">Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div>
+                {% include 'paginator.html' %}
+            </div>
+        </div>
+        {% else %}
+        <h4>NO HAY DOCENTES REGISTRADOS</h4>
+        {% endif %}
+    </div>
+</div>
+ {% endblock %}

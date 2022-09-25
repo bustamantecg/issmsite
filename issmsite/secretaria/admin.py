@@ -2,7 +2,11 @@ from django.contrib import admin
 
 # Register your models here.
 from secretaria.models import Carrera, Materia, EstadoCivil, Mesa, Docente, MesaDetalle, Tribunal, Concepto, Alumno, \
-    Recibo, Recibor, Empleado, Cargo, Persona
+    Recibo, Recibor, Empleado, Cargo, Persona, MotivoBaja
+
+
+class MotivoBajaAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'id')
 
 
 class CarreraAdmin(admin.ModelAdmin):
@@ -40,7 +44,7 @@ class MesaDetalleAdmin(admin.ModelAdmin):
 
 
 class AlumnoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'persona', 'foto', 'ingreso', 'carrera')
+    list_display = ('id', 'persona', 'foto', 'ingreso', 'carrera', 'baja', 'motivo_baja')
     list_filter = ('ingreso', 'baja')
 
 
@@ -81,6 +85,7 @@ class PersonaAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Cargo, CargoAdmin)
+admin.site.register(MotivoBaja, MotivoBajaAdmin)
 admin.site.register(Persona, PersonaAdmin)
 admin.site.register(Empleado, EmpleadoAdmin)
 admin.site.register(EstadoCivil, EstadoCivilAdmin)
@@ -92,4 +97,3 @@ admin.site.register(MesaDetalle, MesaDetalleAdmin)
 admin.site.register(Alumno, AlumnoAdmin)
 admin.site.register(Concepto, ConceptoAdmin)
 admin.site.register(Recibo, ReciboAdmin)
-
