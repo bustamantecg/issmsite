@@ -20,6 +20,7 @@ urlpatterns = [
 #  ------------------ path para Docentes ----------------------------------------------
     path('docente_listado/', docente_listado, name='docente_listado'),
     path('docente_crear/', docente_crear, name='docente_crear'),
+    path('docente_editar/', docente_crear, name='docente_editar'),
 
 #  ------------------ path para Personal de la Institucion ----------------------------
     path('empleado_listado/', empleado_listado, name='empleado_listado'),

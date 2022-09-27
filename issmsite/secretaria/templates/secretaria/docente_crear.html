@@ -10,11 +10,13 @@
     <div class="card-body">
         <h5 class="card-title">Datos del Docente</h5>
         <form method="POST">
-            <table>
-              <p> Formulario de registrar </p>
+            <table class="table-primary">
+                {{formaDocenteCrear.as_table}}
             </table>
             {% csrf_token %}
-            <a href="#" class="btn btn-primary">Registrar</a>
+            <button type="submit" class="btn btn-primary btn-sm">Registrar </button>
+
+            <a href="{% url 'docente_listado' %}" class="btn btn-info btn-sm">Cancelar</a>
         </form>
     </div>
 </div>

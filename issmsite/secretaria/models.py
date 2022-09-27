@@ -164,7 +164,6 @@ class Docente(models.Model):
     legajo = models.CharField(max_length=50)
     titulo = models.CharField(max_length=80, null=True, blank=True)
     horas_catedras = models.CharField(max_length=100)
-    carreras = models.ManyToManyField(Carrera)
     legajo = RichTextField(help_text='Puede describir Altas, Bajas, Titulos, ect.')
     foto = models.ImageField(upload_to='docente', verbose_name='Foto 4x4', null=True, blank=True)
     baja = models.DateField(null=True, blank=True)

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator
 # Create your views here.
-from secretaria.forms import AlumnoInscripCarreraForm
+from secretaria.forms import AlumnoInscripCarreraForm, DocenteForm
 from secretaria.models import Carrera, Materia, Alumno, Persona, Docente, Empleado
 
 
@@ -104,7 +104,6 @@ def docente_listado(request):
         docentes = paginator.page(page)
     except:
         raise Http404
-
     data = {
         'entity': docentes,
         'paginator': paginator,
@@ -115,12 +114,12 @@ def docente_listado(request):
 
 def docente_crear(request):
     if request.method == 'POST':
-        formaDocenteCrear = AlumnoInscripCarreraForm(request.POST)
+        formaDocenteCrear = DocenteForm(request.POST)
         if formaDocenteCrear.is_valid():
             formaDocenteCrear.save()
-            return redirect('secretaria/docente_crear.html')
+            return redirect('docente_listado')
     else:
-        formaDocenteCrear = AlumnoInscripCarreraForm()
+        formaDocenteCrear = DocenteForm()
     return render(request, 'secretaria/docente_crear.html',{'formaDocenteCrear': formaDocenteCrear})
 
 

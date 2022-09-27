@@ -17,7 +17,36 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarScroll">
+
+
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
+        {% if user.is_authenticated %}
+
+        <li class="nav-item">
+            <a class="nav-link" href="#" tabindex="-1" >User: {{ user.get_username }} </a>
+        </li>
+		{% if 'Docentes' in groups  %}
+			<li class="nav-item">
+				<a class="nav-link" href="#" tabindex="-1" >Grupo: "{{user.group}}" </a>
+			</li>
+
+		{% else %}
+			<li class="nav-item">
+				<a class="nav-link" href="#" tabindex="-1" >No Docente Grupo: {{user.group}} </a>
+			</li>
+		{% endif %}
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout'%}?next={{request.path}}" tabindex="-1" >Logout</a>
+        </li>
+
+
+	  {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Login</a>
+        </li>
+	  {% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Secretaria
@@ -74,14 +103,23 @@
         <li class="nav-item">
           <a class="nav-link" href="#" tabindex="-1" >Preguntas Frecuentes</a>
         </li>
+          <li class="nav-item">
 
-       {% if user.is_authenticated %}
-            <li>User: {{ user.get_username }}</li>
-            <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-        {% else %}
-            <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-        {% endif %}
-      </ul>
+          </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="#" tabindex="-1" >User: {{ user.get_username }} </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout'%}?next={{request.path}}" tabindex="-1" >Logout</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Login</a>
+                </li>
+           {% endif %}
+        </ul>
+
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>

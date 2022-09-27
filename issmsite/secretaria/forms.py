@@ -58,11 +58,17 @@ class DocenteForm(forms.ModelForm):
         model = Docente
         fields = '__all__'
         widgets = {
-            'carrera': forms.Select(
+            'carreras': forms.Select(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Seleccione Carrera'
+                    'placeholder': 'Seleccione las Carreras'
                 }
             ),
-            'email': EmailInput(attrs={'type':'email'})
+            'foto': forms.FileInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Foto',
+                    'upload_to' : 'docente'
+                }
+            )
         }

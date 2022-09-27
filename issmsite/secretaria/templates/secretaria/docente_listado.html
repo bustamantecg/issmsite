@@ -9,7 +9,7 @@
     <div class="card-body">
         <a href="" class="btn btn-primary">Listar todo</a>
         &nbsp&nbsp
-        <a href="{% url 'docente_listado' %}" class="btn btn-warning">Agregar</a>
+        <a href="{% url 'docente_crear' %}" class="btn btn-warning">Agregar</a>
         <br><br>
         {% if entity %}
         <div class="table-responsive">
@@ -20,7 +20,6 @@
                     <th>D.N.I.</th>
                     <th>Docente</th>
                     <th>Genero</th>
-                    <th>Legajo</th>
                     <th>H.Catedras</th>
                     <th>Titulo</th>
                     <th>Domicilio</th>
@@ -36,7 +35,6 @@
                     <td>{{persona.persona.dni}}</td>
                     <td>{{persona.persona.apellido}}, {{persona.persona.nombre}}</td>
                     <td>{{persona.persona.genero}}</td>
-                    <td>{{persona.legajo|safe}}</td>
                     <td>{{persona.horas_catedras}}</td>
                     <td>{{persona.titulo}}</td>
                     <td>{{persona.persona.domicilio}}</td>
