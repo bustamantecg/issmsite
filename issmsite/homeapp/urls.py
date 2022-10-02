@@ -8,7 +8,6 @@ from homeapp.views import Error404View
 
 urlpatterns = [
     path('', views.home, name='Home'),
-    path('accounts/', include('django.contrib.auth.urls')),
 
     path('secretaria/', include('secretaria.urls')),
     path('alumno/', include('alumno.urls')),
