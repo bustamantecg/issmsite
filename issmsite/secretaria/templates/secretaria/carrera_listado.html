@@ -1,77 +1,79 @@
 {% extends 'base.html' %}
 
-{% block title %}Carreras{% endblock title %}
+{% block title %}Carreras - Agregar{% endblock title %}
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-10">
-            <br>
-            <form class="row g-3" method="POST">
-                <div class="col-auto">
-                    <label>Ingrese Dato <input type="text" placeholder="Buscar..." name="buscar" value="{{request.POST.buscar}}"> </label>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-3">Buscar</button>
-                </div>
-                {% csrf_token %}
-            </form>
+  <div class="row">
+    <div class="col-10">
+      <br>
+      <form class="row g-3" method="POST">
+        <div class="col-auto">
+          <label>Ingrese Dato <input type="text" placeholder="Buscar..." name="buscar" value="{{request.POST.buscar}}">
+          </label>
         </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+         
+        </div>
+        {% csrf_token %}
+      </form>
     </div>
+  </div>
 </div>
 
 
-  <div class="card shadow mb-4">
-     <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Carreras  [{{cantidad}}]</h6>
-            </div>
-            <div class="card-body">
-            <a href="" class="btn btn-primary">Listar todas</a>
-                &nbsp&nbsp <a href="" class="btn btn-success">Agregar</a>
-              <br><br>
-            {% if carreras %}
-              <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover"  width="80%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nombre</th>
-                      <th>Abreviado</th>
-                      <th>Legal</th>
-                      <th>fecha_inicio</th>
-                      <th>Duración</th>
-                      <th>Cuatrimestres</th>
-                      <th>Tipo</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for carrera in carreras %}
-                      <tr>
-                        <td>{{carrera.id}}</td>
-                        <td>{{carrera.nombre}}</td>
-                        <td>{{carrera.abreviatura}}</td>
-                        <td>{{carrera.legal}}</td>
-                        <td>{{carrera.fecha_inicio}}</td>
-                        <td>{{carrera.duracion}} años</td>
-                        <td>{{carrera.cuatrimestre}}</td>
-                        <td>{{carrera.tipo}}</td>
-                        <td>
-                            <a href="{{carrera.id}}" class="btn btn-info">...</a>
-                            <a href="/{{carrera.id}}" class="btn btn-danger">x</a>
-                        </td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-             {% else %}
-              <h4>NO HAY CARRERAS REGISTRADAS</h4>
-            {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Carreras [{{cantidad}}]</h6>
+  </div>
+  <div class="card-body">
+    <a href="" class="btn btn-primary">Listar todas</a>
+    &nbsp&nbsp <a href="{% url 'carrera_agregar' %}" class="btn btn-success">Agregar</a>
+    <br><br>
+    {% if carreras %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover" width="80%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Abreviado</th>
+            <th>Legal</th>
+            <th>fecha_inicio</th>
+            <th>Duración</th>
+            <th>Cuatrimestres</th>
+            <th>Tipo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for carrera in carreras %}
+          <tr>
+            <td>{{carrera.id}}</td>
+            <td>{{carrera.nombre}}</td>
+            <td>{{carrera.abreviatura}}</td>
+            <td>{{carrera.legal}}</td>
+            <td>{{carrera.fecha_inicio}}</td>
+            <td>{{carrera.duracion}} años</td>
+            <td>{{carrera.cuatrimestre}}</td>
+            <td>{{carrera.tipo}}</td>
+            <td>
+              <a href="{% url 'carrera_detalle' carrera.id %}" class="btn btn-info">...</a>
+              <a href="/{{carrera.id}}" class="btn btn-danger">x</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+    {% else %}
+    <h4>NO HAY CARRERAS REGISTRADAS</h4>
+    {% endif %}
+  </div>
+</div>
+</div>
+</div>
 
 {% endblock content %}
-

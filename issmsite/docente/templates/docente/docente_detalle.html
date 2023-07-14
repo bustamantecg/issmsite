@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Listado Docentes{% endblock %}
+{% block content %}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Información del Docentes [{{id}}]</h6>
+    </div>
+    <div class="card-body">
+        <a href="" class="btn btn-primary">Imprimir</a>
+        <br><br>
+        {% if docente %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover"  width="80%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>D.N.I.</th>
+                    <th>Docente</th>
+                    <th>Genero</th>
+                    <th>H.Catedras</th>
+                    <th>Titulo</th>
+                    <th>Domicilio</th>
+                    <th>E-mail</th>
+                    <th>Foto</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{docente.persona.id}}</td>
+                    <td>{{docente.persona.dni}}</td>
+                    <td>{{docente.persona.apellido}}, {{docente.persona.nombre}}</td>
+                    <td>{{docente.persona.genero}}</td>
+                    <td>{{docente.horas_catedras}}</td>
+                    <td>{{docente.titulo}}</td>
+                    <td>{{docente.persona.domicilio}}</td>
+                    <td>{{docente.persona.email}}</td>
+                    <td>
+                        {% if docente.foto %}
+                        <div class="row-picture">
+                            <img class="circle" src="{{docente.foto.url}}" alt="icon" width="80" height="80">
+                            <br><br>
+                        </div>
+                        {% else %}
+                        <div class="row-picture">
+                            Sin foto
+                            <img class="circle" src="/media/docente/avatar.png" alt="icon" width="50" height="50">
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <h4>Up's DOCENTE No REGISTRADOS</h4>
+        {% endif %}
+    </div>
+</div>
+
+
+
+ {% endblock %}

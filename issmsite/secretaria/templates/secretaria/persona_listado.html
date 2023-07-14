@@ -4,7 +4,6 @@
 
 {% block content %}
 
-
 <div class="container">
     <div class="row">
         <div class="col-10">
@@ -14,7 +13,9 @@
                     <label>Ingrese Dato <input type="text" placeholder="Buscar..." name="buscar" value="{{request.POST.buscar}}"> </label>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+                    <button type="submit" class="btn btn-primary mb-3">
+                        <i class="fa fa-binoculars" aria-hidden="true"></i>
+                        Buscar</button>
                 </div>
                 {% csrf_token %}
             </form>
@@ -28,23 +29,31 @@
         <h6 class="m-0 font-weight-bold text-primary">Listado de Persanas [{{cantidad}}]    Encontrados [{{encontrados}}]</h6>
     </div>
     <div class="card-body">
-        <a href="" class="btn btn-primary">Listar todo</a>
+        <a href="" class="btn btn-primary">
+            <i class="bi bi-bookmark-plus-fill"></i>
+            <i class="fa fa-list-ol" aria-hidden="true"></i> Listar todo
+        </a>
         &nbsp&nbsp
-        <a href="" class="btn btn-warning">Agregar</a>
+        <a href="{% url 'persona_agregar' %}" class="btn btn-outline-warning">
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+            Agregar
+        </a>
         <br><br>
         {% if personas %}
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover"  width="80%" cellspacing="0">
+            <table class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
                     <th>ID</th>
                     <th>Apellido y Nombre</th>
                     <th>D.N.I.</th>
                     <th>Genero</th>
+                    <th>Fecha Nac.</th>
                     <th>Domicilio</th>
                     <th>E-mail</th>
                     <th>E. Civil</th>
                     <th>Vive</th>
+                    <th>Foto</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
@@ -55,13 +64,34 @@
                     <td>{{persona.apellido}}, {{persona.nombre}}</td>
                     <td>{{persona.dni}}</td>
                     <td>{{persona.genero}}</td>
-                    <td>{{persona.email}}</td>
+                    <td>{{persona.fechanac}}</td>
                     <td>{{persona.domicilio}}</td>
+                    <td>{{persona.email}}</td>
                     <td>{{persona.estado_civil.nombre}}</td>
-                    <td>{% if persona.vive %} <p style="color: green"> <b>Si</b> </p>{% else%} <p style="color: red"><b>NO</b></p>{% endif %}</td>
+                    <td>{% if persona.vive %} 
+                            <p style="color: green"> <b>Si</b> </p>
+                        {% else%} 
+                            <p style="color: red"><b>NO</b></p>
+                        {% endif %}
+                    </td>
                     <td>
-                        <a href="{{persona.id}}" class="btn btn-outline-info">Detalle</a> &nbsp;
-                        <a href="{{persona.id}}" class="btn btn-outline-warning">Editar</a>
+                        {% if persona.foto %}
+                            <div class="row-picture">
+                                <img class="circle" src="{{persona.foto.url}}" alt="sin foto" width="60" height="60">
+                                <br><br>
+                            </div>
+                        {% else %}
+                            <div class="row-picture">
+                                <img class="circle" src="/media/persona/avatar.png" alt="sin foto" width="50" height="50">
+                            </div>
+                        {% endif %}
+                        </td>                    
+                    <td>
+                        <a href="{% url 'persona_detalle' persona.id %}" class="btn btn-outline-info" title="Detalle">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </a> &nbsp;
+                        <a href="{% url 'persona_editar' persona.id %}" class="btn btn-outline-warning" title="Editar">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -72,8 +102,8 @@
             </div>
         </div>
         {% else %}
-        <h4>NO HAY PERSONAS REGISTRADAS</h4>
+            <h4>NO HAY PERSONAS REGISTRADAS</h4>
         {% endif %}
     </div>
 </div>
- {% endblock %}
+{% endblock %}

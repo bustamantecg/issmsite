@@ -7,6 +7,12 @@ from django.views.generic import TemplateView
 from secretaria.models import Carrera
 
 
+def index(request):
+    return render(request, 'homeapp/index.html')
+
+def about(request):
+    return render(request, 'homeapp/about.html')
+
 @login_required
 def home(request):
     if request.user.is_authenticated:

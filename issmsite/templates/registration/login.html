@@ -39,6 +39,9 @@
     </form>
 </table>
 {# Assumes you setup the password_reset view in your URLconf #}
+<label>
+    <input value="remember-me" type="checkbox"> Remember me
+  </label>
 <p><a href="{% url 'password_reset' %}">¿Olvido su Contraseña?</a></p>
 
 {% endblock %}

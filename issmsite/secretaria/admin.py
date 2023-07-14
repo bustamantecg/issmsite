@@ -24,7 +24,7 @@ class EstadoCivilAdmin(admin.ModelAdmin):
 
 
 class DocenteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'persona', 'foto')
+    list_display = ('id', 'persona')
 
 
 class MesaAdmin(admin.ModelAdmin):
@@ -44,7 +44,7 @@ class MesaDetalleAdmin(admin.ModelAdmin):
 
 
 class AlumnoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'persona', 'foto', 'ingreso', 'carrera', 'baja', 'motivo_baja')
+    list_display = ('id', 'persona', 'ingreso', 'carrera', 'baja', 'motivo_baja')
     list_filter = ('ingreso', 'baja')
 
 
@@ -70,7 +70,7 @@ class ReciborAdmin(admin.ModelAdmin):
 
 
 class EmpleadoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'persona', 'display_cargo', 'foto')
+    list_display = ('id', 'persona', 'display_cargo')
 
 
 class CargoAdmin(admin.ModelAdmin):
@@ -79,7 +79,7 @@ class CargoAdmin(admin.ModelAdmin):
 
 
 class PersonaAdmin(admin.ModelAdmin):
-    list_display = ('id', 'dni', 'apellido', 'nombre', 'fechanac', 'genero', 'email', 'vive')
+    list_display = ('id', 'dni', 'apellido', 'nombre', 'fechanac', 'genero', 'email', 'vive', 'foto')
     list_filter = ('vive', 'fechanac', 'genero', 'created')
     readonly_fields = ('updated', 'id')
 

@@ -12,11 +12,12 @@
 <body>
 
     <h2>Home de alumnos</h2>
-    <p>User name -->  {{ request.user.username }}</p>
-    <p>User ID -->  {{ request.user.id }}</p>
-    <p>User email -->  {{ request.user.email }}</p>
-    <p>User grupo -->  {{ request.user.groups }}</p>
-    <p>User grupete -->  {{ grupete }}</p>
+    <p>User name -->  {{ user.username }}</p>
+    <p>Bienvenido  {{ user.last_name }}, {{ user.first_name }}</p>
+    <p>User ID -->  {{ user.id }}</p>
+    <p>User email -->  {{ user.email }}</p>
+    <p>User grupo -->  {{ user.groups.name }}</p>
+    <p>User grupete -->  {{ user }}</p>
     <p>User resultado -->  {{ resultado }}</p>
     <ol>
         <li> <a href="mesas_listado/">Mesas de Examenes</a> </li>

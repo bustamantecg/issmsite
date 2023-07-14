@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} {{titulo}} {% endblock %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Persona
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Agregar Nueva Persona</h5>
+        <form method="POST"  enctype="multipart/form-data">
+            <table class="table table-bordered table-striped table-hover">
+                {{persona_form.as_table}}
+            </table>
+            {% csrf_token %}
+            <div align="center">
+               <button type="submit" class="btn btn-outline-info">Agregar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<div align="center">
+    <a href="{% url 'personas_listado' %}" class="btn btn-warning">
+       <i class="fa fa-plus-square" aria-hidden="true"></i>
+          Cancelar
+    </a>
+</div>
+{% endblock %}

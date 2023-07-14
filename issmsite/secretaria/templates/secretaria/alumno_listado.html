@@ -26,8 +26,9 @@
             <h6 class="m-0 font-weight-bold text-primary">Listado de Alumnos [{{cantidad}}]</h6>
             </div>
             <div class="card-body">
-                <a href="{% url 'alumno_listado'%}" class="btn btn-primary">Listar Todos</a>
+                <a href="{% url 'alumno_listado' %}" class="btn btn-primary">Listar Todos</a>
                 &nbsp&nbsp <a href="{% url 'alumno_inscribir_carrera'%}" class="btn btn-success">Inscribir</a>
+                <a href="{% url 'alumno_import_excel'%}" class="btn btn-success">Importar a Excel</a>
               <br><br>
             {% if personas %}
               <div class="table-responsive">
@@ -63,14 +64,14 @@
                         <td>{{persona.persona.email}}</td>
                         <td>{{persona.ingreso}}</td>
                         <td>
-                        {% if persona.foto %}
+                        {% if persona.persona.foto %}
                             <div class="row-picture">
-                                <img class="circle" src="{{persona.foto.url}}" alt="sin foto" width="70" height="70">
+                                <img class="circle" src="{{persona.persona.foto.url}}" alt="sin foto" width="60" height="60">
                                 <br><br>
                             </div>
                         {% else %}
                             <div class="row-picture">
-                                <img class="circle" src="/media/docente/avatar.png" alt="sin foto" width="50" height="50">
+                                <img class="circle" src="/media/persona/avatar.png" alt="sin foto" width="50" height="50">
                             </div>
                         {% endif %}
                         </td>
@@ -90,5 +91,9 @@
           </div>
         </div>
       </div>
+
+ {% endblock %}
+
+ {% block footer %}
 
  {% endblock %}

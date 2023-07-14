@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="es">
+<head>
+
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+
+ <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'Home' %}">ISSM</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+
+
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
+        {% if user.is_authenticated %}
+
+        <li class="nav-item">
+            <a class="nav-link" href="#" tabindex="-1" >User: {{ user.get_username }} </a>
+        </li>
+		{% if 'Docentes' in groups  %}
+			<li class="nav-item">
+				<a class="nav-link" href="#" tabindex="-1" >Grupo: "{{user.group}}" </a>
+			</li>
+
+		{% else %}
+			<li class="nav-item">
+				<a class="nav-link" href="#" tabindex="-1" >No Docente Grupo: {{user.group}} </a>
+			</li>
+		{% endif %}
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout'%}?next={{request.path}}" tabindex="-1" >Logout</a>
+        </li>
+
+
+	  {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Login</a>
+        </li>
+	  {% endif %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Secretaria
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item" href="{% url 'inicio' %}">Secretaria</a></li>
+            <li><a class="dropdown-item" href="{% url 'personas_listado' %}">Personas</a></li>
+            <li><a class="dropdown-item" href="{% url 'docente_listado' %}">Docentes</a></li>
+            <li><a class="dropdown-item" href="{% url 'alumno_listado' %}">Alumnos</a></li>
+            <li><a class="dropdown-item" href="{% url 'empleado_listado' %}">Empleados</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'carrera_listado' %}">Carreras</a></li>
+            <li><a class="dropdown-item" href="#">Examenes</a></li>
+            <li><a class="dropdown-item" href="#">Certificados</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Cobros</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Docentes
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown2">
+            <li><a class="dropdown-item" href="#">Materias</a></li>
+            <li><a class="dropdown-item" href="#">Notas</a></li>
+            <li><a class="dropdown-item" href="#">Alumnos</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Asistencias</a></li>
+            <li><a class="dropdown-item" href="#">Examenes Finales</a></li>
+            <li><a class="dropdown-item" href="#">Perfil</a></li>
+          </ul>
+        </li>
+       <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Alumnos
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown3">
+            <li><a class="dropdown-item" href="#">Cursada</a></li>
+            <li><a class="dropdown-item" href="#">Notas</a></li>
+            <li><a class="dropdown-item" href="#">Notificaciones</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'mesa_listado' %}">Inscripción Cursada</a></li>
+            <li><a class="dropdown-item" href="#">Inscripción Examen Final</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Cuotas</a></li>
+            <li><a class="dropdown-item" href="#">Perfil</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Contacto</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" tabindex="-1" >Preguntas Frecuentes</a>
+        </li>
+          <li class="nav-item">
+
+          </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="#" tabindex="-1" >User: {{ user.get_username }} </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout'%}?next={{request.path}}" tabindex="-1" >Logout</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Login</a>
+                </li>
+           {% endif %}
+        </ul>
+
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+ <div class="container">
+  <div class="row">
+    <div class="col-12">
+      {% block content %} {% endblock %}
+    </div>
+  </div>
+</div>
+
+
+ <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

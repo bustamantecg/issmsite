@@ -1,23 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Contacto</title>
-</head>
-<body>
-    {% if 'valido' in request.GET %}
-        <p>Información enviada correctamente</p>
-        <p>Gracias por contactarte con nosotros</p>
-    {% endif %}
+{% extends 'base.html' %}
 
-    <div>
-        <form action="" method="POST">
-            {% csrf_token %}
-            <table>
-                {{form_contacto.as_table}}
-            </table>
-            <input type="submit" value="Enviar" style="width:150px;">
-        </form>
+{% block title %}ISSM - Contacto{% endblock %}
+
+{% block content %}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h4 class="m-0 font-weight-bold text-primary">Rellena el formulario de Contacto</h4>
     </div>
-</body>
-</html>
+    <div class="card-body">
+        {% if 'valido' in request.GET %}
+           <h6 class="m-0 font-weight-bold text-primary">Información enviada correctamente</h6>
+           <h6 class="m-0 font-weight-bold text-primary">Gracias por contactarte con nosotros</h6>
+        {% endif %}
+        
+        {% if 'novalido' in request.GET %}
+        <h6 class="m-0 font-weight-bold text-primary">Información enviada Incorrectamente</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Se produjo un error al contactarte con nosotros</h6>
+     {% endif %}
+
+        <div>
+            <form action="" method="POST" class="form-control border-primary">
+                {% csrf_token %}
+                <table >
+                    {{form_contacto.as_table}}
+                </table>
+                <input type="submit" value="Enviar" style="width:150px;" class="btn btn-info">
+            </form>
+        </div>
+        <br>
+        <a href="/" class="btn btn-info">Cancelar</a>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}
+

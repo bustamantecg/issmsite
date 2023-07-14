@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Persona - Información{% endblock %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Persona
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Información detallada de Persona</h5>
+        <p>Apellido: {{persona.apellido}}</p>
+        <p>Nombre: {{persona.nombre}}</p>
+        <p>dcc: {{docente.titulo}}</p>
+        {% if docente %}
+            <p>Legajo: {{docente.legajo}}</p>
+            <p>Horas Cat.: {{docente.horas_catedras}}</p>
+            <p>Titulo: {{docente.titulo}}</p>
+        {% else %}
+            <p>{{docente}}</p>
+        {% endif%}
+    </div>
+</div>
+<br>
+<div align="center">
+    <a href="{% url 'personas_listado' %}" class="btn btn-warning">
+       <i class="fa fa-plus-square" aria-hidden="true"></i>
+          Cancelar
+    </a>
+</div>
+{% endblock %}

@@ -3,6 +3,14 @@
     {% block title %}Secretaria - Admin{% endblock %}
     {% block content %}
 
+    {% if 'ok' in request.GET %}
+      <p><b>Alumno Inscripto Correctamente</b></p>
+    {% endif %}
+    {% if 'existe' in request.GET %}
+      <p><b>El Alumno/a Ya Esta Inscripto</b></p>
+    {% endif %}
+
+
 <div class="card">
     <div class="card-header">
         Inscripción de Alumno a Carrera
@@ -14,9 +22,8 @@
                 {{formaAlumnoInscripCarrera}}
             </table>
             {% csrf_token %}
-            <a href="{% url 'alumno_inscribir_carrera' %}" class="btn btn-primary">Inscribir</a>
-            <input name="" id=""class="btn btn-primary" type="submit" value="Inscribir">
-            <button type="submit">Enviar</button>
+            
+            <button type="submit" class="btn btn-primary" >Inscribir</button>
         </form>
     </div>
 </div>

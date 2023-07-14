@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Carrera - Detalles{% endblock %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Carrera
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{carrera.nombre}}</h5>
+        <p>ID: {{carrera.id}}</p>        
+        <p>Abreviatura: {{carrera.abreviatura}}</p>
+        <p>Doc. Legal: {{carrera.legal}}</p>
+        <p>Fecha de Inicio: {{carrera.fecha_inicio}}</p>
+        <p>Duración: {{carrera.duracion}} años</p>
+        <p>Cantidad de Cuatrimestres: {{carrera.cuatrimestre}}</p>
+        <p>Tipo: {{carrera.tipo}}</p>
+    </div>
+</div>
+<br>
+<div align="center">
+    <a href="{% url 'carrera_listado' %}" class="btn btn-warning">
+       <i class="fa fa-plus-square" aria-hidden="true"></i>
+          Regresar
+    </a>
+</div>
+{% endblock %}

@@ -56,7 +56,8 @@ class Persona(models.Model):
     dni = models.CharField(max_length=8, verbose_name='D.N.I.', unique=True)
     apellido = models.CharField(max_length=40)
     nombre = models.CharField(max_length=40)
-    fechanac = models.DateField(verbose_name='Fecha de Nacimiento')
+    foto = models.ImageField(upload_to='persona/', verbose_name='Foto 4x4', default='anonimo.jpg')
+    fechanac = models.DateField(verbose_name='Fecha de Nacimiento', help_text="formato de fecha: <em>YYYY-MM-DD</em>.")
     GENERO = [
         ('Femenino', 'Femenino'),
         ('Masculino', 'Masculino'),
@@ -85,7 +86,7 @@ class Carrera(models.Model):
     fecha_inicio = models.DateField()
     duracion = models.IntegerField(verbose_name='Año Duración', default=3,
                                    validators=[MinValueValidator(1), MaxValueValidator(6)])
-    cuatrimestre = models.IntegerField(default=1, verbose_name='Cantidad de Cuatrimestres')
+    cuatrimestre = models.PositiveSmallIntegerField(default=1, verbose_name='Cantidad de Cuatrimestres')
     TIPOCARRERA = [
         ('Tecnicatura', 'Tecnicatura'),
         ('Profesorado', 'Profesorado'),
@@ -99,7 +100,6 @@ class Carrera(models.Model):
 
     def __str__(self):
         return f'{self.nombre}'
-
 
 class Materia(models.Model):
     carrera_id = models.ForeignKey(Carrera, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Carrera')
@@ -160,14 +160,14 @@ class Mesa(models.Model):
 
 
 class Docente(models.Model):
-    persona = models.ForeignKey(Persona, on_delete=models.SET_NULL, null=True, blank=True)
-    legajo = models.CharField(max_length=50)
+    persona = models.OneToOneField(Persona, on_delete=models.PROTECT, unique=True)
     titulo = models.CharField(max_length=80, null=True, blank=True)
     horas_catedras = models.CharField(max_length=100)
-    legajo = RichTextField(help_text='Puede describir Altas, Bajas, Titulos, ect.')
-    foto = models.ImageField(upload_to='docente', verbose_name='Foto 4x4', null=True, blank=True)
+    legajo = RichTextField(help_text='Puede describir Altas, Bajas, Ausentes, ect.')
     baja = models.DateField(null=True, blank=True)
     motivo_baja = models.ForeignKey(MotivoBaja, on_delete=models.SET_NULL, null=True, blank=True)
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
     def __str__(self):
         return f'{self.persona}'
 
@@ -179,6 +179,27 @@ class Docente(models.Model):
         verbose_name = 'Docente'
         verbose_name_plural = 'Docentes'
         ordering = ['persona']
+
+
+class Alumno(models.Model):
+    carrera = models.ForeignKey(Carrera, on_delete=models.SET_NULL, null=True, blank=True)
+    persona = models.OneToOneField(Persona, on_delete=models.PROTECT, unique=True)
+    ingreso = models.DateField()    
+    legajo = RichTextField(help_text='Puede describir Altas, Bajas, Documentación, ect.')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    baja = models.DateField(null=True, blank=True)
+    motivo_baja = models.ForeignKey(MotivoBaja, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f' Matricula: {self.id} {self.persona} {self.carrera}'
+
+    def delete(self, using=None, keep_parents=False):
+        self.foto.storage.delete(self.foto.name)
+        super().delete()
+
+    class Meta:
+        verbose_name = 'Alumno'
+        verbose_name_plural = 'Alumnos'
 
 
 class MesaDetalle(models.Model):
@@ -232,36 +253,14 @@ class Concepto(models.Model):
         return f'{self.nombre}'
 
 
-class Alumno(models.Model):
-    carrera = models.ForeignKey(Carrera, on_delete=models.SET_NULL, null=True, blank=True)
-    persona = models.ForeignKey(Persona, on_delete=models.SET_NULL, null=True, blank=True)
-    ingreso = models.DateField()
-    foto = models.ImageField(upload_to='alumno', verbose_name='Foto 4x4', null=True, blank=True)
-    legajo = RichTextField(help_text='Puede describir Altas, Bajas, Documentación, ect.')
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    baja = models.DateField(null=True, blank=True)
-    motivo_baja = models.ForeignKey(MotivoBaja, on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        return f' Matricula: {self.id} {self.persona} {self.carrera}'
-
-    def delete(self, using=None, keep_parents=False):
-        self.foto.storage.delete(self.foto.name)
-        super().delete()
-
-    class Meta:
-        verbose_name = 'Alumno'
-        verbose_name_plural = 'Alumnos'
-
 
 class Empleado(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.SET_NULL, null=True, blank=True)
     cargo = models.ManyToManyField(Cargo)
     horario = models.CharField(max_length=200)
     carga_horaria = models.CharField(max_length=100)
-    legajo = RichTextField(help_text='Puede describir Altas, Bajas, Titulos, ect.')
-    foto = models.ImageField(upload_to='empleado', verbose_name='Foto 4x4', null=True, blank=True)
-
+    legajo = RichTextField(help_text='Puedes Registrar: Altas, Bajas, Titulos, Ausentismo, ect.')
+    
     def __str__(self):
         return f'{self.persona}'
 

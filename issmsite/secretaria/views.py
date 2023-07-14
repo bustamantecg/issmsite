@@ -3,8 +3,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator
+from django.urls import reverse
+import openpyxl
+from openpyxl.styles import Alignment, Font
+from django.views.generic import TemplateView
+
+
 # Create your views here.
-from secretaria.forms import AlumnoInscripCarreraForm, DocenteForm
+from secretaria.forms import AlumnoInscripCarreraForm, PersonaForm, CarreraForm
 from secretaria.models import Carrera, Materia, Alumno, Persona, Docente, Empleado
 
 
@@ -31,11 +37,22 @@ def carrera_listado(request):
     return render(request, 'secretaria/carrera_listado.html', {'carreras': carreras, 'cantidad': cantidad})
 
 
-def carreras_detalle(request, id):
+def carrera_detalle(request, id):
     carrera = Carrera.objects.get(pk=id)
     materias = Materia.objects.filter(carrera_id=id).order_by('cuatrimestre', 'nombre')
     canti_materias = Materia.objects.filter(carrera_id=id).count()
-    return render(request, 'secretaria/carreras_detalle.html', {'carrera': carrera, 'materias': materias, 'canti_materias': canti_materias})
+    return render(request, 'secretaria/carrera_detalle.html', {'carrera': carrera, 'materias': materias, 'canti_materias': canti_materias})
+
+
+def carrera_agregar(request):
+    if request.method == 'POST':
+        carrera_form = CarreraForm(request.POST)
+        if carrera_form.is_valid():
+            carrera_form.save()
+            return redirect('carrera_listado')
+    else:
+        carrera_form = CarreraForm()
+    return render(request, 'secretaria/carrera_agregar.html', {'carrera_form':carrera_form})
 
 
 #--------------Views para Alumnos ---------------------------------------------------------
@@ -66,8 +83,17 @@ def alumno_inscribir_carrera(request):
     if request.method == 'POST':
         formaAlumnoInscripCarrera = AlumnoInscripCarreraForm(request.POST)
         if formaAlumnoInscripCarrera.is_valid():
-            formaAlumnoInscripCarrera.save()
-            return redirect('secretaria.html')
+
+            persona = request.POST.get('persona')
+            carrera = request.POST.get('carrera')
+            existe = Alumno.objects.filter(persona_id= persona, carrera_id=carrera)
+
+            if existe:
+                return redirect(reverse(alumno_inscribir_carrera) + "?existe")
+            
+
+            formaAlumnoInscripCarrera.save()            
+            return redirect(reverse(alumno_inscribir_carrera) + "?ok")
     else:
         formaAlumnoInscripCarrera = AlumnoInscripCarreraForm()
     return render(request, 'secretaria/alumno_inscribir_carrera.html',{'formaAlumnoInscripCarrera': formaAlumnoInscripCarrera})
@@ -75,6 +101,51 @@ def alumno_inscribir_carrera(request):
 
 def alumno_consulta(request):
     return render(request, 'secretaria/alumno_consulta.html')
+
+
+class alumno_import_excel(TemplateView):
+    def get(self, request, *args, **kwargs):
+        alumnos= Alumno.objects.all().order_by('persona__apellido', 'persona__nombre')
+        libro_excel = openpyxl.Workbook()
+        hoja_excel= libro_excel.active
+        #wb['B2']= 'Listado de Alumnos'
+        #hoja_excel.cell(row= 1, column=2).value='Listado de Alumnos'
+        ft = Font(bold=True, color='000000FF')
+        titulo = 'Listado de Alumnos' # Título deseado
+        celda_titulo = hoja_excel.cell(row=1, column=2, value=titulo)
+        celda_titulo.alignment = Alignment(horizontal='center')  # Alineación centrada
+        celda_titulo.font = ft
+
+    # Combinar celdas para el título
+        hoja_excel.merge_cells(start_row=1, start_column=2, end_row=1, end_column=5) 
+
+        #wb.merge_cells('B2:E2')
+
+        enca= hoja_excel.cell(row= 3, column=2, value='DNI')       #   wb['B4']='DNI'
+        enca.font= ft
+        enca= hoja_excel.cell(row= 3, column=3, value='Apellido')  #   wb['C4']='Apellido'
+        enca.font= ft
+        enca= hoja_excel.cell(row= 3, column=4, value='Nombres' )  #   wb['D4']= 'Nombres' 
+        enca.font= ft
+        enca= hoja_excel.cell(row= 3, column=5, value='email')     #   wb['E4']= 'email' 
+        enca.font= ft
+
+        cont=4
+        for alumno in alumnos:
+            hoja_excel.cell(row= cont, column=2).value=alumno.persona.dni
+            hoja_excel.cell(row= cont, column=3).value=alumno.persona.apellido
+            hoja_excel.cell(row= cont, column=4).value=alumno.persona.nombre
+            hoja_excel.cell(row= cont, column=5).value=alumno.persona.email
+            cont+=1
+
+        nombre_archivo= 'Listado_Alumnos.xlsx'
+        #response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+        response = HttpResponse(content_type= 'application/ms-excel')
+        content= 'attachment; filename= {0}'.format(nombre_archivo)
+        response['Content-Disposition']= content
+        libro_excel.save(response)
+        return response
 
 
 def buscar_alumno_dni(request):
@@ -91,36 +162,6 @@ def buscar_alumno_dni(request):
         mensaje = 'No ingreso D.N.I. del alumno/a a consultar'
 
     return HttpResponse(mensaje)
-
-
-#--------------Views para Docentes---------------------------------------------------------#
-def docente_listado(request):
-    page = request.GET.get('page', 1)
-    docentes = Docente.objects.all().order_by('persona__apellido')
-    cantidad = len(docentes)
-
-    try:
-        paginator = Paginator(docentes, 2)
-        docentes = paginator.page(page)
-    except:
-        raise Http404
-    data = {
-        'entity': docentes,
-        'paginator': paginator,
-        'cantidad': cantidad
-    }
-    return render(request, 'secretaria/docente_listado.html', data)
-
-
-def docente_crear(request):
-    if request.method == 'POST':
-        formaDocenteCrear = DocenteForm(request.POST)
-        if formaDocenteCrear.is_valid():
-            formaDocenteCrear.save()
-            return redirect('docente_listado')
-    else:
-        formaDocenteCrear = DocenteForm()
-    return render(request, 'secretaria/docente_crear.html',{'formaDocenteCrear': formaDocenteCrear})
 
 
 #--------------Views para Empleados de la Institutcion -----------------------------------------------#
@@ -159,3 +200,35 @@ def personas_listado(request):
     return render(request, 'secretaria/persona_listado.html', {'personas': personas, 'cantidad': cantidad, 'encontrados':encontrados})
 
 
+def persona_agregar(request):
+    titulo = 'Persona - Agregar'
+    if request.method == 'POST':
+        persona_form = PersonaForm(request.POST, request.FILES)
+        if persona_form.is_valid():
+            persona_form.save()
+            return redirect('personas_listado')
+    else:
+        persona_form = PersonaForm()
+    return render(request, 'secretaria/persona_agregar.html', {'persona_form':persona_form, 'titulo':titulo})
+
+
+def persona_editar(request, id):
+    persona = get_object_or_404(Persona, pk=id)
+    if request.method == 'POST':
+        formaPersona = PersonaForm(request.POST, instance=persona)
+        if formaPersona.is_valid():
+            formaPersona.save()
+            return redirect('personas_listado')
+    else:
+        formaPersona = PersonaForm(instance=persona)
+    return render(request, 'secretaria/persona_editar.html', {'formaPersona': formaPersona})
+
+
+def persona_detalle(request, id):
+    persona = get_object_or_404(Persona, pk=id)
+    docente = Docente.objects.filter(persona_id=persona.id)
+    print(docente)
+    if not docente:
+
+        docente = ''
+    return render(request, 'secretaria/persona_detalle.html',{'persona': persona, 'docente': docente})

@@ -1,1 +1,6 @@
 .env
+requirements.txt
+media/
+static/
+venv/
+recursos_info.txt

@@ -7,14 +7,15 @@ from django.conf.urls import handler404
 from homeapp.views import Error404View
 
 urlpatterns = [
-    path('', views.home, name='Home'),
+    #path('', views.home, name='Home'),
+    path('', views.index, name='index'),
+    path('about/', views.about, name='about'),
 
     path('secretaria/', include('secretaria.urls')),
     path('alumno/', include('alumno.urls')),
     path('docente/', include('docente.urls')),
     path('contacto/', include('contacto.urls')),
-]
+] +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = Error404View.as_view()

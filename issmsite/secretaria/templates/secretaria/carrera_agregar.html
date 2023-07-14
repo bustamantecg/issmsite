@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Carrera - Agregar{% endblock %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Carrera
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Agregar Nueva Carrera</h5>
+        <form method="POST" >
+            <table class="table table-bordered table-striped table-hover">
+                {{carrera_form.as_table}}
+            </table>
+            {% csrf_token %}
+            <div align="center">
+            <button type="submit" class="btn btn-outline-info">Agregar</button>
+                </div>
+        </form>
+    </div>
+</div>
+<br>
+<div align="center">
+    <a href="{% url 'carrera_listado' %}" class="btn btn-warning">
+       <i class="fa fa-plus-square" aria-hidden="true"></i>
+          Cancelar
+    </a>
+</div>
+{% endblock %}
