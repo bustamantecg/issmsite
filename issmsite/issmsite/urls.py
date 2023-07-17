@@ -9,7 +9,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('timpa/', admin.site.urls),
 
-    #path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', include('homeapp.urls')),
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))
 

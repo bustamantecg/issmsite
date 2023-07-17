@@ -27,6 +27,13 @@
             </h1>
         </header>
 
+        {% if user.is_authenticated %}
+
+ 
+        {% else %}
+           
+        {% endif %}
+
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
             <div class="container">
@@ -40,8 +47,10 @@
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'docente_listado' %}">Docentes</a></li>
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'alumno_listado' %}">Alumnos</a></li>
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'about' %}">About</a></li>
+
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'login' %}">Login</a></li>
                         
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'store' %}">Historia</a></li>
                     </ul>
                 </div>
             </div>

@@ -17,31 +17,43 @@
    {% endif %}
 {% endif %}
 
-<table class="table table-hover">
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <tr class="table-primary">
-            <div class="mb-3">
-                <td class="table-primary">{{ form.username.label_tag }}</td>
-                <td class="table-primary">{{ form.username }}</td>
-            </div>
-        </tr>
-        <tr class="table-primary">
-            <div class="mb-3">
-                <td class="table-primary">{{ form.password.label_tag }}</td>
-                <td class="table-primary">{{ form.password }}</td>
-            </div>
-        </tr>
-        <tr class="table-primary">
-            <td class="table-primary"><input type="submit" value="login"/>
-                <input type="hidden" name="next" value="{{ next }}"/> </td>
-        </tr>
-    </form>
-</table>
+
 {# Assumes you setup the password_reset view in your URLconf #}
 <label>
     <input value="remember-me" type="checkbox"> Remember me
   </label>
 <p><a href="{% url 'password_reset' %}">¿Olvido su Contraseña?</a></p>
+
+<section class="page-section cta">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <div class="cta-inner bg-faded text-center rounded">
+                    <h2 class="section-heading mb-4">
+                        <span class="section-heading-upper">Login</span>                        
+                    </h2>
+                    
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+
+                                <div class="mb-3">
+                                    {{ form.username.label_tag }}
+                                    {{ form.username }}
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ form.password.label_tag }}
+                                    {{ form.password }}
+                                </div>
+                            
+                                <input type="submit" value="login"/>
+                                <input type="hidden" name="next" value="{{ next }}"/>
+                        </form>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}

@@ -7,9 +7,9 @@ from django.conf.urls import handler404
 from homeapp.views import Error404View
 
 urlpatterns = [
-    #path('', views.home, name='Home'),
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),
+    path('store/', views.store, name='store'),
 
     path('secretaria/', include('secretaria.urls')),
     path('alumno/', include('alumno.urls')),

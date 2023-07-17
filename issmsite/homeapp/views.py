@@ -13,6 +13,9 @@ def index(request):
 def about(request):
     return render(request, 'homeapp/about.html')
 
+def store(request):
+    return render(request, 'homeapp/store.html')
+
 @login_required
 def home(request):
     if request.user.is_authenticated:
